@@ -1,0 +1,120 @@
+import java.util.*;
+
+class Person {
+    protected String name;
+    protected int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+
+class Patient extends Person {
+    private int patientId;
+    private String disease;
+
+    public Patient(int id, String name, int age, String disease) {
+        super(name, age);
+        this.patientId = id;
+        this.disease = disease;
+    }
+
+    public void display() {
+        System.out.println("ID: " + patientId + ", Name: " + name +
+                ", Age: " + age + ", Disease: " + disease);
+    }
+
+    public int getId() {
+        return patientId;
+    }
+}
+
+class Doctor extends Person {
+    private String specialization;
+
+    public Doctor(String name, int age, String specialization) {
+        super(name, age);
+        this.specialization = specialization;
+    }
+
+    public void display() {
+        System.out.println("Doctor: " + name + ", Specialization: " + specialization);
+    }
+}
+
+public class hospitalmanagement {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        ArrayList<Patient> patients = new ArrayList<>();
+        Doctor doc = new Doctor("Dr. Reddy", 45, "Dentist");
+        while (true) {
+            System.out.println("\n===== HOSPITAL MENU =====");
+            System.out.println("1. Add Patient");
+            System.out.println("2. View Patients");
+            System.out.println("3. Search Patient");
+            System.out.println("4. Doctor Info");
+            System.out.println("5. Exit");
+            System.out.print("Enter choice: ");
+            int ch = sc.nextInt();
+            switch (ch) {
+                case 1:
+                    System.out.print("Enter Patient ID: ");
+                    int id = sc.nextInt();
+                    sc.nextLine();
+
+                    System.out.print("Enter Name: ");
+                    String name = sc.nextLine();
+
+                    System.out.print("Enter Age: ");
+                    int age = sc.nextInt();
+                    sc.nextLine();
+
+                    System.out.print("Enter Disease: ");
+                    String disease = sc.nextLine();
+
+                    patients.add(new Patient(id, name, age, disease));
+                    System.out.println("Patient Added!");
+                    break;
+
+                case 2:
+                    if (patients.isEmpty()) {
+                        System.out.println("No patients available.");
+                    } else {
+                        for (Patient p : patients) {
+                            p.display();
+                        }
+                    }
+                    break;
+
+                case 3:
+                    System.out.print("Enter ID to search: ");
+                    int searchId = sc.nextInt();
+                    boolean found = false;
+
+                    for (Patient p : patients) {
+                        if (p.getId() == searchId) {
+                            p.display();
+                            found = true;
+                        }
+                    }
+
+                    if (!found) {
+                        System.out.println("Patient not found.");
+                    }
+                    break;
+
+                case 4:
+                    doc.display();
+                    break;
+
+                case 5:
+                    System.out.println("Exiting...");
+                    return;
+
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        }
+    }
+}
